@@ -1,24 +1,33 @@
-import logo from './logo.svg';
+
+import { useState } from 'react';
 import './App.css';
+import { users } from "./users.js";
+import CustomTable from './CustomTable.jsx';
+ 
 
 function App() {
+
+
+  const [query,setQuery] = useState('')
+
+  const keys = ["first_name","last_name","email"]
+
+  const search = (data)=>{
+    return data.filter(item=> keys.some( (key)=> item[key].toLowerCase().includes(query)))
+  }
+ 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='container'>
+        <div className='row'>
+          <div className='col'>
+          <input type='text' className='search' placeholder='Search...' onChange={ event=> setQuery(event.target.value) }></input>
+          <CustomTable  data={search(users)}></CustomTable>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
